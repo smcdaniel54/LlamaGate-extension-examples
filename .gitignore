@@ -30,3 +30,30 @@ ENV/
 # User-specific files
 .env.local
 .env.*.local
+
+# Test resources and outputs (exclude entire test suite)
+tests/
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.tox/
+.hypothesis/
+test-results/
+*.cover
+*.py,cover
+
+# Test artifacts
+*.pyc
+.pytest_cache/
+dist/
+build/
+*.egg-info/
+
+# Test configuration files
+pytest.ini
+requirements-test.txt
+
+# CI/CD workflows
+.github/
