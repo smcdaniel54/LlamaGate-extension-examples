@@ -1,0 +1,19 @@
+{
+  "structured_summary": {
+    "summary": "User requests a dark mode feature option in settings. This is a non-urgent feature request that could be considered for a future release.",
+    "intent": "feature_request",
+    "urgency": "low",
+    "action_items": [
+      "Evaluate dark mode feature request",
+      "Assess user demand and priority",
+      "Design dark mode UI/UX implementation",
+      "Plan dark mode feature for future release",
+      "Gather user feedback on dark mode preferences"
+    ]
+  },
+  "routing_decision": {
+    "route": "product_queue",
+    "priority": "low",
+    "reasoning": "Feature request routed to product team"
+  }
+}

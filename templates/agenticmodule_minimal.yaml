@@ -1,0 +1,52 @@
+# Minimal AgenticModule Template
+# Copy this template to create a new AgenticModule manifest
+
+name: my_agenticmodule
+version: 1.0.0
+description: Brief description of what this module does
+
+# Module-level inputs (what the module accepts)
+inputs:
+  type: object
+  properties:
+    # Add your module input fields here
+    example_input:
+      type: string
+      description: Example module input
+  required:
+    - example_input
+
+# Module-level outputs (what the module produces)
+outputs:
+  type: object
+  properties:
+    # Add your module output fields here
+    example_output:
+      type: string
+      description: Example module output
+  required:
+    - example_output
+
+# Workflow steps (executed in order)
+workflow:
+  steps:
+    - name: step1
+      extension: extensions/step1_extension.yaml  # Path relative to manifest
+      inputs:
+        # Map module inputs to extension inputs
+        field: "{{inputs.example_input}}"
+    
+    - name: step2
+      extension: extensions/step2_extension.yaml
+      inputs:
+        # Can reference outputs from previous steps
+        field: "{{steps.step1.outputs.result}}"
+        # Or combine module inputs with step outputs
+        combined: "{{inputs.example_input}} - {{steps.step1.outputs.result}}"
+
+# Module-level guardrails (applied to all steps)
+guardrails:
+  - type: no_network_access
+    enabled: true
+  - type: no_filesystem_access
+    enabled: true

@@ -1,0 +1,19 @@
+{
+  "structured_summary": {
+    "summary": "Production database is down causing complete service outage affecting all users and revenue. Connection timeout errors are occurring and monitoring alerts are active. Immediate restoration required.",
+    "intent": "bug_report",
+    "urgency": "critical",
+    "action_items": [
+      "Investigate database connection timeout errors",
+      "Check database server status and connectivity",
+      "Review recent database configuration changes",
+      "Restore database service and verify connectivity",
+      "Monitor system stability after restoration"
+    ]
+  },
+  "routing_decision": {
+    "route": "critical_engineering_queue",
+    "priority": "critical",
+    "reasoning": "Critical urgency requires immediate engineering attention"
+  }
+}

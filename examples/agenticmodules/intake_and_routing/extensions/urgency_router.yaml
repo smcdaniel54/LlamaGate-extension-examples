@@ -1,0 +1,88 @@
+name: urgency_router
+version: 1.0.0
+description: Routes requests to appropriate queues based on urgency level and intent
+
+inputs:
+  type: object
+  properties:
+    urgency:
+      type: string
+      enum: ["low", "medium", "high", "critical"]
+      description: Urgency level from intake processing
+    intent:
+      type: string
+      description: Intent category from intake processing
+    summary:
+      type: string
+      description: Summary text for additional context
+  required:
+    - urgency
+    - intent
+
+outputs:
+  type: object
+  properties:
+    route:
+      type: string
+      description: Target queue or team identifier
+    priority:
+      type: string
+      enum: ["low", "medium", "high", "critical"]
+      description: Priority level for routing
+    reasoning:
+      type: string
+      description: Explanation of routing decision
+  required:
+    - route
+    - priority
+    - reasoning
+
+task:
+  type: rules
+
+rules:
+  # Intent-based routing (checked first)
+  - condition: "{{inputs.intent}} == 'feature_request'"
+    outputs:
+      route: product_queue
+      priority: "{{inputs.urgency}}"
+      reasoning: "Feature request routed to product team"
+  
+  # Critical urgency routing
+  - condition: "{{inputs.urgency}} == 'critical'"
+    outputs:
+      route: critical_engineering_queue
+      priority: critical
+      reasoning: "Critical urgency requires immediate engineering attention"
+  
+  # High urgency routing
+  - condition: "{{inputs.urgency}} == 'high'"
+    outputs:
+      route: urgent_engineering_queue
+      priority: high
+      reasoning: "High urgency bug or issue routed to urgent engineering queue"
+  
+  # Medium urgency routing
+  - condition: "{{inputs.urgency}} == 'medium'"
+    outputs:
+      route: normal_support_queue
+      priority: medium
+      reasoning: "Medium urgency request routed to normal support queue"
+  
+  # Low urgency routing (default)
+  - condition: true
+    outputs:
+      route: standard_queue
+      priority: low
+      reasoning: "Low urgency request routed to standard queue for normal processing"
+
+guardrails:
+  - type: no_network_access
+    enabled: true
+  - type: no_filesystem_access
+    enabled: true
+
+observability:
+  logging:
+    enabled: true
+    level: info

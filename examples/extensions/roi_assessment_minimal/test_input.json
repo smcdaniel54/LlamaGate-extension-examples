@@ -1,0 +1,6 @@
+{
+  "initial_cost": 100000,
+  "annual_savings": 50000,
+  "risk_factor": 0.5,
+  "time_horizon_years": 3
+}

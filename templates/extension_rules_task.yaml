@@ -1,0 +1,62 @@
+# Rules Task Extension Template
+# Use this template for rule-based extensions (no LLM required)
+
+name: my_rules_extension
+version: 1.0.0
+description: Extension that uses rules to process inputs
+
+inputs:
+  type: object
+  properties:
+    value:
+      type: number
+      description: Input value to evaluate
+    category:
+      type: string
+      description: Category for routing
+  required:
+    - value
+    - category
+
+outputs:
+  type: object
+  properties:
+    action:
+      type: string
+      description: Action to take based on rules
+    route:
+      type: string
+      description: Routing destination
+  required:
+    - action
+
+task:
+  type: rules
+
+# Rule-based logic (evaluated in order, first match wins)
+rules:
+  - condition: "{{inputs.value}} > 100"
+    action: escalate
+    route: high_priority_queue
+  - condition: "{{inputs.value}} > 50"
+    action: process
+    route: normal_queue
+  - condition: "{{inputs.category}} == 'urgent'"
+    action: expedite
+    route: urgent_queue
+  - condition: true  # Default case
+    action: queue
+    route: default_queue
+
+# Guardrails
+guardrails:
+  - type: no_network_access
+    enabled: true
+  - type: no_filesystem_access
+    enabled: true
+
+# Observability
+observability:
+  logging:
+    enabled: true
+    level: info

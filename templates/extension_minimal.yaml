@@ -1,0 +1,39 @@
+# Minimal Extension Template
+# Copy this template to create a new extension with the bare minimum required fields
+
+name: my_extension
+version: 1.0.0
+description: Brief description of what this extension does
+
+# Define what inputs this extension expects
+inputs:
+  type: object
+  properties:
+    # Add your input fields here
+    example_field:
+      type: string
+      description: Example input field
+  required:
+    - example_field
+
+# Define what outputs this extension produces
+outputs:
+  type: object
+  properties:
+    # Add your output fields here
+    example_result:
+      type: string
+      description: Example output field
+  required:
+    - example_result
+
+# Task type: "model" for LLM tasks, "rules" for rule-based tasks
+task:
+  type: model  # or "rules"
+
+# Guardrails to ensure safe execution
+guardrails:
+  - type: no_network_access
+    enabled: true
+  - type: no_filesystem_access
+    enabled: true

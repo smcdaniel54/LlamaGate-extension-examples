@@ -1,0 +1,63 @@
+name: intake_and_routing
+version: 1.0.0
+description: Orchestrates intake processing and urgency-based routing using structured summary extraction and rule-based routing
+
+inputs:
+  type: object
+  properties:
+    request_text:
+      type: string
+      description: Raw text of the incoming request or ticket
+  required:
+    - request_text
+
+outputs:
+  type: object
+  properties:
+    structured_summary:
+      type: object
+      description: Structured summary from intake step
+      properties:
+        summary:
+          type: string
+        intent:
+          type: string
+        urgency:
+          type: string
+        action_items:
+          type: array
+          items:
+            type: string
+    routing_decision:
+      type: object
+      description: Routing decision from router step
+      properties:
+        route:
+          type: string
+        priority:
+          type: string
+        reasoning:
+          type: string
+  required:
+    - structured_summary
+    - routing_decision
+
+workflow:
+  steps:
+    - name: intake_processing
+      extension: extensions/intake_structured_summary.yaml
+      inputs:
+        request_text: "{{inputs.request_text}}"
+    
+    - name: urgency_routing
+      extension: extensions/urgency_router.yaml
+      inputs:
+        urgency: "{{steps.intake_processing.outputs.urgency}}"
+        intent: "{{steps.intake_processing.outputs.intent}}"
+        summary: "{{steps.intake_processing.outputs.summary}}"
+
+guardrails:
+  - type: no_network_access
+    enabled: true
+  - type: no_filesystem_access
+    enabled: true

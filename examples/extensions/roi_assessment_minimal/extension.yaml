@@ -1,0 +1,116 @@
+name: roi_assessment_minimal
+version: 1.0.0
+description: Calculates ROI from costs, expected savings, and risk factors; returns decision recommendation
+
+inputs:
+  type: object
+  properties:
+    initial_cost:
+      type: number
+      description: Initial investment or cost
+      minimum: 0
+    annual_savings:
+      type: number
+      description: Expected annual savings or revenue
+      minimum: 0
+    risk_factor:
+      type: number
+      description: Risk factor from 0.0 (low risk) to 1.0 (high risk)
+      minimum: 0
+      maximum: 1
+    time_horizon_years:
+      type: number
+      description: Time horizon for ROI calculation in years
+      minimum: 1
+      default: 3
+  required:
+    - initial_cost
+    - annual_savings
+    - risk_factor
+
+outputs:
+  type: object
+  properties:
+    total_savings:
+      type: number
+      description: Total savings over the time horizon
+    net_roi:
+      type: number
+      description: Net ROI (total savings minus initial cost)
+    roi_percentage:
+      type: number
+      description: ROI as a percentage
+    risk_adjusted_roi:
+      type: number
+      description: ROI adjusted for risk factor
+    recommendation:
+      type: string
+      enum: ["strong_approve", "approve", "review", "reject"]
+      description: Decision recommendation based on ROI and risk
+    reasoning:
+      type: string
+      description: Brief explanation of the recommendation
+  required:
+    - total_savings
+    - net_roi
+    - roi_percentage
+    - risk_adjusted_roi
+    - recommendation
+    - reasoning
+
+task:
+  type: model
+
+model:
+  provider: ollama
+  model_name: llama3.2
+  temperature: 0.2
+  max_tokens: 500
+
+prompt: |
+  Calculate ROI and provide a decision recommendation based on the following financial data:
+  
+  Initial Cost: ${{inputs.initial_cost}}
+  Annual Savings: ${{inputs.annual_savings}}
+  Risk Factor: {{inputs.risk_factor}} (0.0 = low risk, 1.0 = high risk)
+  Time Horizon: {{inputs.time_horizon_years}} years
+  
+  Calculate:
+  1. Total Savings = Annual Savings × Time Horizon
+  2. Net ROI = Total Savings - Initial Cost
+  3. ROI Percentage = (Net ROI / Initial Cost) × 100
+  4. Risk Adjusted ROI = Net ROI × (1 - Risk Factor)
+  
+  Provide a recommendation based on:
+  - Strong Approve: Risk Adjusted ROI > 50% of initial cost AND ROI Percentage > 100%
+  - Approve: Risk Adjusted ROI > 0 AND ROI Percentage > 50%
+  - Review: Risk Adjusted ROI > 0 OR ROI Percentage > 0
+  - Reject: Risk Adjusted ROI <= 0 AND ROI Percentage <= 0
+  
+  Return a JSON response with this structure:
+  {
+    "total_savings": <calculated value>,
+    "net_roi": <calculated value>,
+    "roi_percentage": <calculated value>,
+    "risk_adjusted_roi": <calculated value>,
+    "recommendation": "strong_approve|approve|review|reject",
+    "reasoning": "Brief explanation of why this recommendation was made"
+  }
+  
+  Return only valid JSON, no additional text.
+
+guardrails:
+  - type: no_network_access
+    enabled: true
+  - type: no_filesystem_access
+    enabled: true
+  - type: max_output_length
+    value: 1000
+
+observability:
+  logging:
+    enabled: true
+    level: info
+  metrics:
+    enabled: true
+    track_latency: true
