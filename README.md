@@ -2,7 +2,7 @@
 
 A companion repository providing simple, high-value, copy/paste-ready examples of LlamaGate Extensions (YAML) and AgenticModules (extension bundles with orchestration). These examples demonstrate real-world patterns for building local LLM workflows, MCP automation, and structured AI task processing.
 
-**Main Repository:** [LlamaGate](https://github.com/your-org/llamagate) *(update with actual link)*
+**Main Repository:** [LlamaGate](https://github.com/smcdaniel54/LlamaGate)
 
 ## Start Here
 
