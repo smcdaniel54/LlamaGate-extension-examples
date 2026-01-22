@@ -1,0 +1,81 @@
+name: text_extractor
+version: 1.0.0
+description: Extracts key information from text including key points, topics, and entities
+
+inputs:
+  type: object
+  properties:
+    text:
+      type: string
+      description: Text to extract information from
+  required:
+    - text
+
+outputs:
+  type: object
+  properties:
+    key_points:
+      type: array
+      items:
+        type: string
+      description: Main points or ideas extracted from the text
+    topics:
+      type: array
+      items:
+        type: string
+      description: Topics or themes identified in the text
+    entities:
+      type: array
+      items:
+        type: string
+      description: Named entities (people, places, organizations) found in the text
+  required:
+    - key_points
+    - topics
+    - entities
+
+task:
+  type: model
+
+model:
+  provider: ollama
+  model_name: llama3.2
+  temperature: 0.3
+  max_tokens: 1500
+
+prompt: |
+  Analyze the following text and extract key information.
+  
+  Text:
+  {{inputs.text}}
+  
+  Provide a JSON response with the following structure:
+  {
+    "key_points": ["Main point 1", "Main point 2", "Main point 3"],
+    "topics": ["Topic 1", "Topic 2"],
+    "entities": ["Entity 1", "Entity 2"]
+  }
+  
+  Guidelines:
+  - Key points should be the main ideas or important information (3-5 items)
+  - Topics should be the general themes or subjects (2-4 items)
+  - Entities should be specific names, places, organizations mentioned (0-5 items)
+  - Be concise and accurate
+  
+  Return only valid JSON, no additional text.
+
+guardrails:
+  - type: no_network_access
+    enabled: true
+  - type: no_filesystem_access
+    enabled: true
+  - type: max_output_length
+    value: 2000
+
+observability:
+  logging:
+    enabled: true
+    level: info
+  metrics:
+    enabled: true
+    track_latency: true

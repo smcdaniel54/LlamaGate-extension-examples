@@ -1,0 +1,67 @@
+name: text_analyzer
+version: 1.0.0
+description: Analyzes text to extract key information and determine sentiment. Demonstrates a simple two-step workflow for text processing.
+
+inputs:
+  type: object
+  properties:
+    text:
+      type: string
+      description: Text to analyze
+  required:
+    - text
+
+outputs:
+  type: object
+  properties:
+    extracted_info:
+      type: object
+      description: Key information extracted from the text
+      properties:
+        key_points:
+          type: array
+          items:
+            type: string
+        topics:
+          type: array
+          items:
+            type: string
+        entities:
+          type: array
+          items:
+            type: string
+    sentiment_analysis:
+      type: object
+      description: Sentiment analysis results
+      properties:
+        sentiment:
+          type: string
+          enum: ["positive", "neutral", "negative"]
+        confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+        reasoning:
+          type: string
+  required:
+    - extracted_info
+    - sentiment_analysis
+
+workflow:
+  steps:
+    - name: extract_information
+      extension: extensions/text_extractor.yaml
+      inputs:
+        text: "{{inputs.text}}"
+    
+    - name: analyze_sentiment
+      extension: extensions/sentiment_analyzer.yaml
+      inputs:
+        text: "{{inputs.text}}"
+        key_points: "{{steps.extract_information.outputs.key_points}}"
+
+guardrails:
+  - type: no_network_access
+    enabled: true
+  - type: no_filesystem_access
+    enabled: true

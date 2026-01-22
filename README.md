@@ -19,6 +19,7 @@ AgenticModules combine multiple extensions into orchestrated workflows. Each mod
 | Structured Intake Summary | Extension | Converts raw request text into structured JSON (summary, intent, urgency, action items) | `examples/extensions/intake_structured_summary/` |
 | ROI Assessment | Extension | Calculates ROI from costs, savings, and risk factors; returns decision recommendation | `examples/extensions/roi_assessment_minimal/` |
 | Intake and Routing | AgenticModule | Orchestrates intake processing and urgency-based routing using two extensions | `examples/agenticmodules/intake_and_routing/` |
+| Text Analyzer | AgenticModule | Extracts key information and analyzes sentiment from text using two extensions | `examples/agenticmodules/text_analyzer/` |
 
 ## Quick Links
 
@@ -26,6 +27,32 @@ AgenticModules combine multiple extensions into orchestrated workflows. Each mod
 - ✍️ [Extensions Authoring Guide](docs/EXTENSIONS_AUTHORING_GUIDE.md) - Build your own extensions
 - 🔄 [AgenticModules Overview](docs/AGENTICMODULES_OVERVIEW.md) - Understand module structure and lifecycle
 - 🔧 [Troubleshooting](docs/TROUBLESHOOTING.md) - Common issues and solutions
+
+## Installing AgenticModules
+
+### Using agentic-module-tool (Recommended)
+
+The [agentic-module-tool](https://github.com/smcdaniel54/agentic-module-tool) provides automated installation and testing for AgenticModules:
+
+```bash
+# Validate module
+agentic-module-tool validate text_analyzer \
+  --modules-dir examples/agenticmodules
+
+# Install to LlamaGate
+agentic-module-tool install text_analyzer \
+  --modules-dir examples/agenticmodules \
+  --llamagate-ext-dir ../LlamaGate/extensions
+
+# Test module
+agentic-module-tool test text_analyzer \
+  --modules-dir examples/agenticmodules \
+  --llamagate-url http://localhost:11435
+```
+
+### Manual Installation
+
+Copy the module directory to your LlamaGate extensions directory and restart LlamaGate. See [Getting Started Guide](docs/GETTING_STARTED.md) for detailed instructions.
 
 ## Templates
 

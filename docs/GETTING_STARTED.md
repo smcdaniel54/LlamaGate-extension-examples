@@ -27,6 +27,46 @@ Before using these examples, ensure you have:
 
 **Recommended first module:** [`intake_and_routing`](../examples/agenticmodules/intake_and_routing/)
 
+## Installing AgenticModules
+
+### Method 1: Using agentic-module-tool (Recommended)
+
+The [agentic-module-tool](https://github.com/smcdaniel54/agentic-module-tool) provides automated installation, validation, and testing:
+
+1. **Install the tool**
+   ```bash
+   git clone https://github.com/smcdaniel54/agentic-module-tool.git
+   cd agentic-module-tool
+   go build -o agentic-module-tool ./cmd/agentic-module-tool
+   ```
+
+2. **Validate the module**
+   ```bash
+   agentic-module-tool validate <module-name> \
+     --modules-dir examples/agenticmodules
+   ```
+
+3. **Install to LlamaGate**
+   ```bash
+   agentic-module-tool install <module-name> \
+     --modules-dir examples/agenticmodules \
+     --llamagate-ext-dir ../LlamaGate/extensions
+   ```
+
+4. **Test the module**
+   ```bash
+   agentic-module-tool test <module-name> \
+     --modules-dir examples/agenticmodules \
+     --llamagate-url http://localhost:11435
+   ```
+
+### Method 2: Manual Installation
+
+1. Copy the module directory to your LlamaGate extensions directory
+2. Ensure all extension files are in the `extensions/` subdirectory
+3. Restart LlamaGate to discover the new extensions
+4. Execute the module via `agenticmodule_runner` or orchestrator extension
+
 ## How to Validate and Run Examples
 
 ### 1. Validate the YAML Structure

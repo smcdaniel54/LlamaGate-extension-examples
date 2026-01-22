@@ -1,0 +1,90 @@
+name: sentiment_analyzer
+version: 1.0.0
+description: Analyzes the sentiment of text and provides confidence score
+
+inputs:
+  type: object
+  properties:
+    text:
+      type: string
+      description: Text to analyze for sentiment
+    key_points:
+      type: array
+      items:
+        type: string
+      description: Key points from text extraction (optional context)
+  required:
+    - text
+
+outputs:
+  type: object
+  properties:
+    sentiment:
+      type: string
+      enum: ["positive", "neutral", "negative"]
+      description: Overall sentiment of the text
+    confidence:
+      type: number
+      minimum: 0
+      maximum: 1
+      description: Confidence score (0.0 to 1.0)
+    reasoning:
+      type: string
+      description: Brief explanation of the sentiment assessment
+  required:
+    - sentiment
+    - confidence
+    - reasoning
+
+task:
+  type: model
+
+model:
+  provider: ollama
+  model_name: llama3.2
+  temperature: 0.2
+  max_tokens: 500
+
+prompt: |
+  Analyze the sentiment of the following text.
+  
+  Text:
+  {{inputs.text}}
+  
+  {{#if inputs.key_points}}
+  Key Points (for context):
+  {{#each inputs.key_points}}
+  - {{this}}
+  {{/each}}
+  {{/if}}
+  
+  Provide a JSON response with the following structure:
+  {
+    "sentiment": "positive|neutral|negative",
+    "confidence": 0.85,
+    "reasoning": "Brief explanation of why this sentiment was determined"
+  }
+  
+  Guidelines:
+  - Sentiment should be one of: positive, neutral, or negative
+  - Confidence should be a number between 0.0 and 1.0
+  - Reasoning should be 1-2 sentences explaining the assessment
+  - Consider the overall tone, word choice, and context
+  
+  Return only valid JSON, no additional text.
+
+guardrails:
+  - type: no_network_access
+    enabled: true
+  - type: no_filesystem_access
+    enabled: true
+  - type: max_output_length
+    value: 1000
+
+observability:
+  logging:
+    enabled: true
+    level: info
+  metrics:
+    enabled: true
+    track_latency: true
