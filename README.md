@@ -19,6 +19,7 @@ AgenticModules combine multiple extensions into orchestrated workflows. Each mod
 | Name                      | Type          | What It Does                                                                            | Path                                             |
 | ------------------------- | ------------- | --------------------------------------------------------------------------------------- | ------------------------------------------------ |
 | Structured Intake Summary | Extension     | Converts raw request text into structured JSON (summary, intent, urgency, action items) | `examples/extensions/intake_structured_summary/` |
+| GitHub Webhook Receiver   | Extension     | Receives GitHub webhooks and processes with LLM via custom HTTP endpoint                | `examples/extensions/github-webhook-receiver/`   |
 | Intake and Routing        | AgenticModule | Orchestrates intake processing and urgency-based routing using two extensions           | `examples/agenticmodules/intake_and_routing/`    |
 | Text Analyzer             | AgenticModule | Extracts key information and analyzes sentiment from text using two extensions          | `examples/agenticmodules/text_analyzer/`         |
 
