@@ -68,7 +68,7 @@ The module combines two extensions to create a complete text analysis system:
 
 ## How to Run
 
-1. Ensure LlamaGate is running with access to a local LLM (e.g., Ollama with llama3.2)
+1. Ensure LlamaGate is running with access to a local LLM (e.g., Ollama with llama3.2:1b)
 2. Install the module using the steps above
 3. Provide input in the format shown in `tests/sample_input_1.json`
 4. Execute the module via `agenticmodule_runner` (if available) or orchestrator extension

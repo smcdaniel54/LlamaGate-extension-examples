@@ -23,7 +23,7 @@ Takes unstructured text input (e.g., support tickets, feature requests, bug repo
 
 ## How to Run
 
-1. Ensure LlamaGate is running with access to a local LLM (e.g., Ollama with llama3.2)
+1. Ensure LlamaGate is running with access to a local LLM (e.g., Ollama with llama3.2:1b)
 2. Place this extension in your LlamaGate extensions directory
 3. Provide input in the format shown in `test_input.json`
 4. Execute the extension via LlamaGate API, CLI, or interface
@@ -35,7 +35,7 @@ Takes unstructured text input (e.g., support tickets, feature requests, bug repo
 
 The extension uses:
 - **Provider:** Ollama (change if using a different provider)
-- **Model:** llama3.2 (update to match your available model)
+- **Model:** llama3.2:1b (low-resource 1B parameter model - update to match your available model)
 - **Temperature:** 0.3 (lower for more consistent structured output)
 
 ### Customization

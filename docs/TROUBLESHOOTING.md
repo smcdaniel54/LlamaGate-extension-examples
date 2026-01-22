@@ -49,7 +49,7 @@ inputs:
 ## Model Not Found
 
 ### Symptom
-Error messages like "Model 'llama3.2' not found" or "Provider 'ollama' not available"
+Error messages like "Model 'llama3.2:1b' not found" or "Provider 'ollama' not available"
 
 ### Solutions
 

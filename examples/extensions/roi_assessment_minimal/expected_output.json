@@ -1,8 +1,0 @@
-{
-  "total_savings": 150000,
-  "net_roi": 50000,
-  "roi_percentage": 50.0,
-  "risk_adjusted_roi": 25000,
-  "recommendation": "approve",
-  "reasoning": "Positive risk-adjusted ROI of $25,000 and ROI percentage of 50% meets the approval threshold. The investment shows solid returns with moderate risk."
-}
