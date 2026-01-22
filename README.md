@@ -34,7 +34,7 @@ AgenticModules combine multiple extensions into orchestrated workflows. Each mod
 
 ### Using agentic-module-tool (Recommended)
 
-The [agentic-module-tool](https://github.com/smcdaniel54/agentic-module-tool) provides automated installation and testing for AgenticModules:
+The [agentic-module-tool](https://github.com/smcdaniel54/LlamaGate-agentic-module-tool) provides automated installation and testing for AgenticModules:
 
 ```bash
 # Validate module

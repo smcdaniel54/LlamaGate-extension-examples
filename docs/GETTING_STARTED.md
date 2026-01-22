@@ -31,12 +31,12 @@ Before using these examples, ensure you have:
 
 ### Method 1: Using agentic-module-tool (Recommended)
 
-The [agentic-module-tool](https://github.com/smcdaniel54/agentic-module-tool) provides automated installation, validation, and testing:
+The [agentic-module-tool](https://github.com/smcdaniel54/LlamaGate-agentic-module-tool) provides automated installation, validation, and testing:
 
 1. **Install the tool**
    ```bash
-   git clone https://github.com/smcdaniel54/agentic-module-tool.git
-   cd agentic-module-tool
+   git clone https://github.com/smcdaniel54/LlamaGate-agentic-module-tool.git
+   cd LlamaGate-agentic-module-tool
    go build -o agentic-module-tool ./cmd/agentic-module-tool
    ```
 
