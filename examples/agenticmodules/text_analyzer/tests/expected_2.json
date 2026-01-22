@@ -1,0 +1,21 @@
+{
+  "extracted_info": {
+    "key_points": [
+      "Service performance issues",
+      "Slow response time (30+ minutes)",
+      "Unacceptable service quality",
+      "Immediate fix required"
+    ],
+    "topics": [
+      "service quality",
+      "response time",
+      "customer complaint"
+    ],
+    "entities": []
+  },
+  "sentiment_analysis": {
+    "sentiment": "negative",
+    "confidence": 0.85,
+    "reasoning": "Text expresses frustration with words like slow, unresponsive, unacceptable, indicating negative sentiment"
+  }
+}

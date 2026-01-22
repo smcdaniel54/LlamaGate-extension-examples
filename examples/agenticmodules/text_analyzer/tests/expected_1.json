@@ -1,0 +1,21 @@
+{
+  "extracted_info": {
+    "key_points": [
+      "New product launch is happening",
+      "Features are impressive",
+      "Team has done excellent work",
+      "High confidence in success"
+    ],
+    "topics": [
+      "product launch",
+      "customer satisfaction",
+      "team performance"
+    ],
+    "entities": []
+  },
+  "sentiment_analysis": {
+    "sentiment": "positive",
+    "confidence": 0.9,
+    "reasoning": "Text contains multiple positive words (excited, amazing, excellent, huge success) indicating strong positive sentiment"
+  }
+}
