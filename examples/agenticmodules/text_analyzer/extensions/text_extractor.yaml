@@ -39,7 +39,7 @@ task:
 
 model:
   provider: ollama
-  model_name: llama3.2:1b
+  model_name: mistral
   temperature: 0.3
   max_tokens: 1500
 

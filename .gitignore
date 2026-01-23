@@ -57,3 +57,8 @@ requirements-test.txt
 
 # CI/CD workflows
 .github/
+
+# Test binaries (built from source during integration tests)
+llamagate
+llamagate.exe
+.test_extensions/

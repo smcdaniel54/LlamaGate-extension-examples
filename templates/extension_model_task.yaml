@@ -34,7 +34,7 @@ task:
 # Model configuration
 model:
   provider: ollama  # Change to your LLM provider (ollama, lm_studio, etc.)
-  model_name: llama3.2:1b  # Low-resource model (1B parameters) - change to your available model
+  model_name: mistral  # Standard model for testing in LlamaGate (suitable for limited resource servers)
   temperature: 0.7
   max_tokens: 1000
 

@@ -60,60 +60,59 @@ outputs:
     description: Unique identifier for stored event
 
 steps:
-  # Step 1: Analyze the webhook event with LLM
+  # Step 1: Render prompt template for analysis
+  - uses: template.render
+    with:
+      template_content: |
+        You are a GitHub webhook analyzer. Analyze the incoming webhook event
+        and provide a clear, concise summary of what happened.
+        
+        Focus on:
+        - What action was performed
+        - Who performed it
+        - What repository/issue/PR is affected
+        - Any important details or context
+        
+        Keep the summary brief but informative.
+        
+        GitHub Event Type: {{.event_type}}
+        Full Event Payload:
+        {{.webhook_payload}}
+    id: render_analysis_prompt
+  
+  # Step 2: Analyze the webhook event with LLM
   - uses: llm.chat
     with:
       model: mistral
       temperature: 0.3
-      messages:
-        - role: system
-          content: |
-            You are a GitHub webhook analyzer. Analyze the incoming webhook event
-            and provide a clear, concise summary of what happened.
-            
-            Focus on:
-            - What action was performed
-            - Who performed it
-            - What repository/issue/PR is affected
-            - Any important details or context
-            
-            Keep the summary brief but informative.
-        - role: user
-          content: |
-            GitHub Event Type: {{inputs.event_type}}
-            Action: {{inputs.webhook_payload.action}}
-            
-            Repository: {{inputs.webhook_payload.repository.full_name}}
-            Sender: {{inputs.webhook_payload.sender.login}}
-            
-            Full Event Payload:
-            {{inputs.webhook_payload}}
     id: analyze_event
     
-  # Step 2: Store the event for history/audit
+  # Step 3: Store the event for history/audit
   - uses: file.write
     with:
       path: ./var/github-events/{{inputs.webhook_payload.repository.full_name}}/{{timestamp}}-{{inputs.webhook_payload.action}}.json
       content: "{{inputs.webhook_payload}}"
     id: store_event
     
-  # Step 3: Generate a friendly response message
+  # Step 4: Render prompt template for response message
+  - uses: template.render
+    with:
+      template_content: |
+        Generate a friendly, professional acknowledgment message for the GitHub webhook.
+        Acknowledge receipt of the event and summarize what action was taken.
+        Keep it brief (1-2 sentences).
+        
+        Event analyzed: {{.llm_response}}
+        Action taken: Stored event and analyzed with LLM
+        
+        Generate a brief acknowledgment message.
+    id: render_response_prompt
+    
+  # Step 5: Generate a friendly response message
   - uses: llm.chat
     with:
       model: mistral
       temperature: 0.5
-      messages:
-        - role: system
-          content: |
-            Generate a friendly, professional acknowledgment message for the GitHub webhook.
-            Acknowledge receipt of the event and summarize what action was taken.
-            Keep it brief (1-2 sentences).
-        - role: user
-          content: |
-            Event analyzed: {{steps.analyze_event.outputs.content}}
-            Action taken: Stored event and analyzed with LLM
-            
-            Generate a brief acknowledgment message.
     id: generate_response
 
 guardrails:
